@@ -52,25 +52,23 @@ void subtract(int **a,int **b,int r,int o)			//subtract Function
 	free(c);
 }
 void multiply(int **a,int **b,int r,int o)			//multiply Function
-{
+{	int h=0;
+	int count = -1;
 	int **c =(int **)malloc(r*sizeof(int *));
 	for(int i=0;i<r;i++)
 	{
 		c[i]=(int*)malloc(o*sizeof(int));
 	}
 
-	for(int i=0;i<r;i++)
-	{
-		for(int j=0;j<o;j++)
-		{
-			c[i][j]=0;
-			for (int k=0;k<r;k++)
-			{
-				c[i][j]+=a[j][k]*b[k][j];
-			}
-
-		}
-	}
+	for (int i = 0; i < r; i++)
+    {
+        for (int j = 0; j < o; j++)
+        {
+            c[i][j] = 0;
+            for (int k = 0; k < r; k++)
+                c[i][j]+=a[i][k] *b[k][j];
+        }
+    }
 	printf("THE MULTIPLICATION OF TWO MATRIX:\n" );
 	for(int i=0;i<r;i++)
 	{	printf("\n");
