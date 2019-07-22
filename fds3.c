@@ -64,9 +64,9 @@ void multiply(int **a,int **b,int r,int o)			//multiply Function
 		for(int j=0;j<o;j++)
 		{
 			c[i][j]=0;
-			for (int k=0;k<o;k++)
+			for (int k=0;k<r;k++)
 			{
-				c[i][j]+=a[i][j]*b[k][j];
+				c[i][j]+=a[j][k]*b[k][j];
 			}
 
 		}
@@ -86,11 +86,11 @@ void saddle(int **a,int r,int o)			//Saddle Point Function
 {
 	int min,max,u=0,count=0,flag=0;
 	for(int i=0;i<r;i++)
-	{
+	{	flag=0;
 		min=a[i][0];
 		for(int j=0;j<o;j++)
 		{
-			if(min<a[i][j])
+			if(min>a[i][j])
 			{
 				min=a[i][j];
 				count=j;
@@ -98,7 +98,7 @@ void saddle(int **a,int r,int o)			//Saddle Point Function
 		}
 		for(int k=0;k<r;k++)
 		{
-			if(a[k][count]>min)
+			if(a[k][count]<=min)
 			{
 				continue ;
 			}
@@ -107,10 +107,7 @@ void saddle(int **a,int r,int o)			//Saddle Point Function
 					break ;
 			}
 		}
-		if(flag==1)
-			break;
-		else
-			continue;
+
 	}
 	if(flag==0)
 		printf("THE SADDLE POINT OF MATRIX:\n%d",min );
@@ -120,26 +117,62 @@ void saddle(int **a,int r,int o)			//Saddle Point Function
 void magic(int **a,int r,int o)			//Magic Square Function
 {
 	int sum=0,flag=0;
+	int g=r*r;
+	g=g+1;
+	g=g/2;
+	g=r*g;
 	for(int i=0;i<r;i++)
 	{	sum=0;
 		for(int j=0;j<o;j++)
 		{
+
 			sum+=a[i][j];
+			if(a[i][j]==a[i][j+1])
+			{
+				flag=1;
+				break ;
+			}
 		}
-		if(sum==15)
+		if(sum==g)
 		{
 			continue;
 		}
 		else
 		{
 			flag=1;
-			break ;
+			break;
 		}
 	}
 	if(flag==0)
 		printf("THE MATRIX IS A SQUARE MATRIX\n");
 	else
 		printf("THE MATRIX IS NOT A MAGIC SQUARE\n" );
+}
+void transpose(int **a,int r,int o)											//TRANSPOSE Function
+{	int i,j,k;
+	int **c =(int **)malloc(o*sizeof(int *));
+	for(i=0;i<o;i++)
+		{
+			c[i]=(int*)malloc(r*sizeof(int));
+		}
+		for(i=0;i<o;i++)
+		{
+			for(j=0;j<r;j++)
+			{
+				*(*(c+i)+j) = *(*(a+j)+i);
+			}
+		}
+		printf("THE TRANSPOSE OF MATRIX A IS:\n" );
+		for(i=0;i<o;++i)
+		{
+				printf("\n" );
+				for(j=0;j<r;j++)
+				{
+					printf("\t");
+					printf("\t %d",c[i][j]);
+				}
+			}
+	free(c);
 }
 int main()																										//main function
 {
@@ -149,7 +182,7 @@ int main()																										//main function
 	printf("ENTER THE NO. OF COLUMN:");
 	scanf("%d",&c);
 	int **a=(int**)malloc(r*sizeof(int*));
-	for(i=1;i<=r;i++)
+	for(i=0;i<r;i++)
 	{
 		a[i]=(int*)malloc(c*sizeof(int));
 	}
@@ -174,9 +207,9 @@ int main()																										//main function
 			scanf("%d",&b[i][j]);
 		}
 	}
-	while(n!=6)														//menu
+	while(n!=7)														//menu
 	{
-		printf("\nENTER YOUR CHOICE:\n1.ADD\n2.SUBTRACT\n3.MULTIPLY\n4.SADDLE POINT\n5.MAGIC SQUARE\n6.EXIT\n");
+		printf("\nENTER YOUR CHOICE:\n1.ADD\n2.SUBTRACT\n3.MULTIPLY\n4.SADDLE POINT\n5.MAGIC SQUARE\n6.TRANSPOSE\n7.EXIT\n");
 		scanf("%d",&n);
 		switch (n)
 		{
@@ -206,6 +239,11 @@ int main()																										//main function
 				break ;
 			}
 			case 6:
+			{
+				transpose(a,r,c);
+				break;
+			}
+			case 7:
 			{
 				break ;
 			}
